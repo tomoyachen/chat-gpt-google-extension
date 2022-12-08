@@ -12,8 +12,13 @@ async function run(question) {
   if (siderbarContainer) {
     siderbarContainer.prepend(container);
   } else {
-    container.classList.add("sidebar-free");
-    document.getElementById("rcnt").appendChild(container);
+    const custom_rhs = document.createElement("div"); 
+    custom_rhs.id = "rhs";
+    custom_rhs.appendChild(container);
+    document.getElementById("rcnt").appendChild(custom_rhs);
+    
+    // container.classList.add("sidebar-free");
+    // document.getElementById("rcnt").appendChild(container);
   }
 
   const port = Browser.runtime.connect();
@@ -30,7 +35,14 @@ async function run(question) {
     }
   });
   port.postMessage({ question });
+
 }
+
+Browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.question) {
+    run(message.question)
+  }
+});
 
 const searchInput = document.getElementsByName("q")[0];
 if (searchInput && searchInput.value) {
