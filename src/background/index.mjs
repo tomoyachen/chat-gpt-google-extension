@@ -77,7 +77,7 @@ Browser.runtime.onConnect.addListener((port) => {
 
 Browser.contextMenus.create({
   id: "search-chat-gpt",
-  title: "Search %s",
+  title: "ChatGPT 👉 %s",
   contexts: ["selection"]
 });
 
@@ -86,7 +86,7 @@ Browser.contextMenus.onClicked.addListener(function(info, tab) {
   if (info.menuItemId === "search-chat-gpt") {
     try {
       console.log(`Search ${info.selectionText}`)
-      Browser.tabs.sendMessage(tab.id, {question: info.selectionText.trim()}).then((response) => {});
+      Browser.tabs.sendMessage(tab.id, {question: info.selectionText.trim() + "/n（请使用中文）"}).then((response) => {});
    } catch (err) {
     console.error(err);
    }
